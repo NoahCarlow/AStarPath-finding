@@ -1,5 +1,7 @@
 import pygame
 import math
+import time
+import random
 from queue import PriorityQueue
 
 
@@ -16,6 +18,8 @@ COLOR_PINK = (255, 0, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 COLOR_GREY = (104, 120, 143)
+
+speed = 0
 
 class Node:
     def __init__(self, row, col, width, total_rows):
@@ -105,6 +109,7 @@ class Node:
 # this function will calculate our h cost
 # h cost = distance from start point to the end point
 # the formula to calculate distance is manhattan
+# for euclidean use math.sqrt( ((p1[0]-p2[0])**2)+((p1[1]-p2[1])**2) )
 def h(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
@@ -159,6 +164,7 @@ def algorithm(draw, grid, start, end):
                     open_set.put((f_score[neighbor], count, neighbor))
                     open_set_hash.add(neighbor)
                     neighbor.make_open()
+        time.sleep(speed)
         draw()
 
         if current != start:
@@ -255,6 +261,8 @@ def main(window, width):
                     end = None
 
             if event.type == pygame.KEYDOWN:
+
+                # starts the pathfinding algorithm if the space bar is pressed
                 if event.key == pygame.K_SPACE and start and end:
                     for row in grid:
                         for node in row:
@@ -262,11 +270,20 @@ def main(window, width):
 
                     # lambda is an anon function
                     algorithm(lambda: draw(window, grid, ROWS, width), grid, start, end)
-
+                
+                # clears the board if the c key is pressed
                 if event.key == pygame.K_c:
                     start = None
                     end = None
                     grid = make_grid(ROWS, width)
+
+                # generates random barriers if the r key is pressed
+                if event.key == pygame.K_r and start and end:
+                    for i in range(0, 1000):
+                        row, col = random.randint(0, 49), random.randint(0, 49)
+                        node = grid[row][col]
+                        if node != start and node != end:
+                            node.make_barrier()
 
     pygame.quit()
 
