@@ -20,6 +20,7 @@ COLOR_WHITE = (255, 255, 255)
 COLOR_GREY = (104, 120, 143)
 
 speed = 0
+ROWS = 50
 
 class Node:
     def __init__(self, row, col, width, total_rows):
@@ -217,7 +218,6 @@ def get_clicked_pos(pos, rows, width):
 
 
 def main(window, width):
-    ROWS = 50
     grid = make_grid(ROWS, width)
 
     start = None
@@ -279,8 +279,8 @@ def main(window, width):
 
                 # generates random barriers if the r key is pressed
                 if event.key == pygame.K_r and start and end:
-                    for i in range(0, 1000):
-                        row, col = random.randint(0, 49), random.randint(0, 49)
+                    for i in range(0, ROWS * round((ROWS/3))):
+                        row, col = random.randint(0, (ROWS - 1)), random.randint(0, ROWS - 1)
                         node = grid[row][col]
                         if node != start and node != end:
                             node.make_barrier()
