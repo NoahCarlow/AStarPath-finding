@@ -2,9 +2,7 @@
 ## Programmed in Python using the Pygame Module
 
 To Install Pygame:
-> pip install pygame    : Windows
-<br></br>
-> pip3 install pygame   : MAC
+> pip install pygame
 
 Directions:
 > Left Click to place start and end node
